@@ -1,6 +1,5 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
@@ -15,13 +14,14 @@ client.on('ready', () => {
     client.user.setActivity('your heartbeat', { type: 'LISTENING'}).catch(console.error);
 });
 
-let token, prefix;
+client.on("warn", (info) => console.log(info));
+client.on("error", console.error);
+
+let prefix;
 try {
   const config = require("./config.json");
-  token = config.token;
   prefix = config.prefix;
 } catch (error) {
-  token = process.env.token;
   prefix = process.env.prefix;
 }
 
@@ -80,4 +80,4 @@ client.on('message', message => {
 	}
 });
 
-client.login(token);
+client.login(process.env.token);
